@@ -1,0 +1,9 @@
+{
+	"method":"post",
+	"url":"_URL_/answers",
+	"authorization":"Bearer _TOKEN_",
+	"payload": {
+		"question": "What is your favorite color?",
+		"answer": "Blue"
+	}
+}

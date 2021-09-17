@@ -1,4 +1,4 @@
-package survey
+package answer
 
 import (
 	"log"
@@ -17,19 +17,19 @@ func ProvideAPI(repo Repo) API {
 	return API{Repo: repo}
 }
 
-// Create is used for creating a survey
+// Create is used for creating a answer
 func (p *API) Create(c *gin.Context) {
-	var sur Survey
+	var ans Answer
 
-	if err := c.ShouldBindJSON(&sur); err != nil {
-		log.Println("error in binding survey")
+	if err := c.ShouldBindJSON(&ans); err != nil {
+		log.Println("error in binding answer")
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "error in bindig survey, make sure send question and answers correctly",
+			"error": "error in bindig answer, make sure send question and answer correctly",
 		})
 		return
 	}
 
-	if err := p.Repo.Create(sur); err != nil {
+	if err := p.Repo.Create(ans); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
@@ -37,6 +37,6 @@ func (p *API) Create(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "survey successfully created",
+		"message": "answer successfully recorded",
 	})
 }
