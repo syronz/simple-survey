@@ -14,8 +14,11 @@ func main() {
 
 	rg := r.Group("/api/v1")
 
-	surveyAPI := new(survey.SurveyAPI)
+	surveyRepo := survey.ProvideRepo("public/surveys")
+	surveyAPI := survey.ProvideAPI(surveyRepo)
+
 	rg.GET("/ping", surveyAPI.Ping)
+	rg.POST("/surveys", surveyAPI.Create)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

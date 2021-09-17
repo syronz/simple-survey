@@ -7,24 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// API is used for control the API
-type API struct {
-	Repo Repo
+// Repo save the data to the storage
+type Repo struct {
+	Path string
 }
 
-// ProvideAPI return an instance of sruvey.API
-func ProvideAPI(repo Repo) API {
-	return API{Repo: repo}
-}
-
-func (p *API) Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+// ProvideRepo return an instance of sruvey.Repo
+func ProvideRepo(path string) Repo {
+	return Repo{Path: path}
 }
 
 // Create is used for creating a survey
-func (p *API) Create(c *gin.Context) {
+func (p *Repo) Create(c *gin.Context) {
 	var sur Survey
 
 	if err := c.ShouldBindJSON(&sur); err != nil {

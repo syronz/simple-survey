@@ -1,0 +1,14 @@
+{
+	"method":"post",
+	"url":"_URL_/surveys",
+	"authorization":"Bearer _TOKEN_",
+	"payload": {
+		"question": "What is your favorite color?",
+		"asnwers": [
+			"Blue", 
+			"Green",
+			"Red",
+			"Yellow"
+		]
+	}
+}
