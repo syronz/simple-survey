@@ -17,20 +17,18 @@ func (p *Repo) Result() (results []Result, err error) {
 		return
 	}
 
-	for _, file := range files {
-
-		if !file.IsDir() && !strings.HasPrefix(file.Name(), ".") {
-			f, e := os.Open(filepath.Join(p.Path, file.Name()))
-			if e != nil {
-				err = e
+	var file *os.File
+	for _, v := range files {
+		// if v is directory or hidden file ignore them
+		if !v.IsDir() && !strings.HasPrefix(v.Name(), ".") {
+			if file, err = os.Open(filepath.Join(p.Path, v.Name())); err != nil {
 				return
 			}
-			defer f.Close()
+			defer file.Close()
 
-			b := new(strings.Builder)
-			io.Copy(b, f)
-			data := b.String()
-			result := p.parse(file.Name(), data)
+			fileStr := new(strings.Builder)
+			io.Copy(fileStr, file)
+			result := parse(v.Name(), fileStr.String())
 			results = append(results, result)
 		}
 	}
@@ -38,7 +36,7 @@ func (p *Repo) Result() (results []Result, err error) {
 	return
 }
 
-func (p *Repo) parse(question, data string) (result Result) {
+func parse(question, data string) (result Result) {
 	result.Question = question
 	result.Answers = make(map[string]int)
 	lines := strings.Split(data, "\n")
