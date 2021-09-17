@@ -1,4 +1,4 @@
-module simple-survey
+module simplesurvey
 
 go 1.16
 
