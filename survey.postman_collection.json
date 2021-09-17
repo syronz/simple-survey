@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "9fad1a19-a4b4-48df-952c-fc0df86a9f0b",
+		"name": "simple-survey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-survey",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"What is your favorite color?\",\n    \"answers\": [\"Blue\",\"Green\",\"Red\", \"Yellow\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8080/api/v1/surveys"
+			},
+			"response": []
+		},
+		{
+			"name": "answer-survey",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"What is your favorite color?\",\n    \"answer\": \"Blue\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8080/api/v1/answers"
+			},
+			"response": []
+		},
+		{
+			"name": "answer-survey Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question\": \"What is your favorite color?\",\n    \"answer\": \"Blue\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8080/api/v1/results"
+			},
+			"response": []
+		}
+	]
+}
