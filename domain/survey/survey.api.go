@@ -35,6 +35,13 @@ func (p *API) Create(c *gin.Context) {
 		return
 	}
 
+	if err := p.Repo.Create(sur); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "survey successfully created",
 	})

@@ -1,10 +1,8 @@
 package survey
 
 import (
-	"log"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"os"
+	"path/filepath"
 )
 
 // Repo save the data to the storage
@@ -18,18 +16,26 @@ func ProvideRepo(path string) Repo {
 }
 
 // Create is used for creating a survey
-func (p *Repo) Create(c *gin.Context) {
-	var sur Survey
+func (p *Repo) Create(sur Survey) (err error) {
 
-	if err := c.ShouldBindJSON(&sur); err != nil {
-		log.Println("error in binding survey")
-		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "error in bindig survey, make sure send question and answers correctly",
-		})
+	var surveyFile *os.File
+	if surveyFile, err = os.Create(filepath.Join(p.Path, sur.Question)); err != nil {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "survey successfully created",
-	})
+	defer surveyFile.Close()
+
+	if _, err = surveyFile.WriteString(sur.Question + "\n"); err != nil {
+		return
+	}
+
+	for _, v := range sur.Answers {
+		if _, err = surveyFile.WriteString(v + "\n"); err != nil {
+			return
+		}
+	}
+
+	surveyFile.Sync()
+
+	return
 }

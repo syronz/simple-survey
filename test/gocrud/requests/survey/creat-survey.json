@@ -4,7 +4,7 @@
 	"authorization":"Bearer _TOKEN_",
 	"payload": {
 		"question": "What is your favorite color?",
-		"asnwers": [
+		"answers": [
 			"Blue", 
 			"Green",
 			"Red",
