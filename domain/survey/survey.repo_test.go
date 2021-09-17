@@ -9,9 +9,11 @@ import (
 	"time"
 )
 
-func TestCreate(t *testing.T) {
-	t.Log("this is a test")
+/*
+Notice: test should be run in linux systems
+*/
 
+func TestCreate(t *testing.T) {
 	const TMP = "/tmp"
 	surveyRepoTMP := ProvideRepo(TMP)
 
@@ -28,11 +30,27 @@ func TestCreate(t *testing.T) {
 			},
 			Out: "test-question\nA\nB\nC\nD\n",
 		},
+		{
+			Dir: TMP,
+			In: Survey{
+				Question: "zzzzzz;;;;;;;:w",
+				Answers:  []string{"A", "B", "C", "D"},
+			},
+			Out: "zzzzzz;;;;;;;:w\nA\nB\nC\nD\n",
+		},
+		{
+			Dir: TMP,
+			In: Survey{
+				Question: "1",
+				Answers:  []string{},
+			},
+			Out: "1\n",
+		},
 	}
 
 	for i := range samples {
 		surveyRepoTMP.Create(samples[i].In)
-		time.Sleep(1 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 		out, _ := openFile(filepath.Join(samples[i].Dir, samples[i].In.Question))
 		if out != samples[i].Out {
 			t.Errorf("for test %v, the output is not same, check file %v/%v", samples[i].In.Question,
